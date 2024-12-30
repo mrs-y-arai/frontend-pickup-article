@@ -35,9 +35,15 @@ export const theme = createTheme({
         zIndex: 1000,
       },
       defaultProps: {
-        overlayOpacity: 0.75,
         radius: "md",
         blur: 2,
+      },
+    },
+    Box: {
+      defaultProps: {
+        p: "md",
+        bg: "gray.1",
+        radius: "md",
       },
     },
   },
