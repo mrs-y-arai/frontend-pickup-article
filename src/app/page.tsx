@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { getPosts } from "../actions/getPosts";
-import { Title, List, Text } from "@mantine/core";
+import { Title, List, Text, LoadingOverlay } from "@mantine/core";
 import { DefaultLayout } from "~/components/layouts/DefaultLayout";
 import { SearchForm } from "~/components/SearchForm";
 import { GradientItem } from "~/components/GradientItem";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [posts, setPosts] = useState<
     {
@@ -18,13 +19,19 @@ export default function Home() {
   >([]);
 
   const handleFetchData = async () => {
+    setIsLoading(true);
     const data = await getPosts(selectedItems);
     setPosts(() => Array.from(data.values()));
+    setIsLoading(false);
   };
 
   return (
     <DefaultLayout>
       <div style={{ position: "relative", minHeight: "100vh" }}>
+        <LoadingOverlay
+          visible={isLoading}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
         <Title
           style={{
             textAlign: "center",
